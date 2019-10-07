@@ -10,4 +10,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Altkom.DotnetCore.FakeRepositories\Altkom.DotnetCore.FakeRepositories.csproj" />
+    <ProjectReference Include="..\Altkom.DotnetCore.IRepositories\Altkom.DotnetCore.IRepositories.csproj" />
+  </ItemGroup>
+
 </Project>

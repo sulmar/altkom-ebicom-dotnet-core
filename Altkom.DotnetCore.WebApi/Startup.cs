@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Altkom.DotnetCore.FakeRepositories;
+using Altkom.DotnetCore.Fakers;
+using Altkom.DotnetCore.IRepositories;
+using Altkom.DotnetCore.Models;
+using Altkom.DotnetCore.WebApi.Constraints;
+using Bogus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -25,7 +32,19 @@ namespace Altkom.DotnetCore.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddDbContext<MyContext>();
+
+            // .NET Core 2.1
+            // services.AddDbContextPool<MyContext>();
+
+            services
+                .AddSingleton<ICustomerRepository, FakeCustomerRepository>()
+                .AddSingleton<Faker<Customer>, CustomerFaker>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.Configure<RouteOptions>(options =>
+                 options.ConstraintMap.Add("pesel", typeof(PeselRouteConstraint)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

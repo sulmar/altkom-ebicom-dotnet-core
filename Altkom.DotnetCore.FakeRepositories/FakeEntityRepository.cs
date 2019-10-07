@@ -3,6 +3,7 @@ using Altkom.DotnetCore.Models;
 using Bogus;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Altkom.DotnetCore.FakeRepositories
 {

@@ -1,7 +1,9 @@
 ﻿using Altkom.DotnetCore.Fakers;
 using Altkom.DotnetCore.IRepositories;
 using Altkom.DotnetCore.Models;
+using Altkom.DotnetCore.Models.SearchCriterias;
 using Bogus;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Altkom.DotnetCore.FakeRepositories
@@ -11,6 +13,11 @@ namespace Altkom.DotnetCore.FakeRepositories
     {
         public FakeCustomerRepository(Faker<Customer> entityFaker) : base(entityFaker)
         {
+        }
+
+        public ICollection<Customer> Get(CustomerSearchCriteria criteria)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override void Remove(int id)
