@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Altkom.DotnetCore.Fakers\Altkom.DotnetCore.Fakers.csproj" />
+    <ProjectReference Include="..\Altkom.DotnetCore.IRepositories\Altkom.DotnetCore.IRepositories.csproj" />
+  </ItemGroup>
+
+</Project>
