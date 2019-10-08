@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Altkom.DotnetCore.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +28,9 @@ namespace Altkom.DotnetCore.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseOwin(pipeline => pipeline(environment => OwinHandler));
+
 
            // app.UseMiddleware<LoggerMiddleware>();
 
@@ -77,6 +82,24 @@ namespace Altkom.DotnetCore.Api
             {
                 await context.Response.WriteAsync("Hello World!");
             });
+        }
+
+        private async Task OwinHandler(IDictionary<string, object> environment)
+        {
+            string requestMethod = (string) environment["owin.RequestMethod"];
+            string requestPath = (string)environment["owin.RequestPath"];
+
+            Stream responseStream = (Stream)environment["owin.ResponseBody"];
+            string responseText = "{\"FirstName\":\"Marcin\"}";
+
+            var responseHeaders = (IDictionary<string, string[]>)environment["owin.ResponseHeaders"];
+            responseHeaders["Content-Type"] = new string[] { "application/json" };
+
+            byte[] responseBytes = Encoding.UTF8.GetBytes(responseText);
+
+            await responseStream.WriteAsync(responseBytes, 0, responseBytes.Length);
+
+
         }
 
         private void HandlerAddTea(IApplicationBuilder app)
