@@ -1,6 +1,7 @@
 ﻿using Altkom.DotnetCore.IRepositories;
 using Altkom.DotnetCore.Models;
 using Altkom.DotnetCore.Models.SearchCriterias;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 namespace Altkom.DotnetCore.WebApi.Controllers
 {
    
-
+    [Authorize]
     [Route("api/[controller]")]
     public class CustomersController : ControllerBase
     {
@@ -93,6 +94,11 @@ namespace Altkom.DotnetCore.WebApi.Controllers
         [HttpGet]
         public IActionResult GetByAddress([FromQuery] CustomerSearchCriteria criteria)
         {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
             var customers = customerRepository.Get();
 
             return Ok(customers);

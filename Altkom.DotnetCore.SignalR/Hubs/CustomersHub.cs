@@ -11,12 +11,21 @@ namespace Altkom.DotnetCore.SignalR.Hubs
     {
         public override Task OnConnectedAsync()
         {
+            this.Groups.AddToGroupAsync(this.Context.ConnectionId, "Ebicom");
+
             return base.OnConnectedAsync();
         }
 
         public async Task CustomerAdded(Customer customer)
         {
-            await this.Clients.All.SendAsync("Added", customer);
+            await this.Clients.Others.SendAsync("Added", customer);
+
+            await this.Clients.Groups("Ebicom").SendAsync("Added", customer);
+        }
+
+        public async Task Ping(string message = "Pong")
+        {
+            await this.Clients.Caller.SendAsync(message);
         }
     }
 }
