@@ -9,6 +9,7 @@ namespace Altkom.DotnetCore.IRepositories
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Remove(TKey id);
+        bool IsExists(TKey key);
     }
 
 }

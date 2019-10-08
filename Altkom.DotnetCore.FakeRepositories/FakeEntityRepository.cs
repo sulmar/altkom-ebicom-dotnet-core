@@ -23,6 +23,8 @@ namespace Altkom.DotnetCore.FakeRepositories
 
         public virtual TEntity Get(TKey id) => entities.SingleOrDefault(e => e.Id.Equals(id));
 
+        public virtual bool IsExists(TKey key) => entities.Any(e => e.Id.Equals(key));
+
         public virtual void Remove(TKey id) => entities.Remove(Get(id));
 
         public virtual void Update(TEntity entity)

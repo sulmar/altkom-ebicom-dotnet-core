@@ -15,15 +15,30 @@ namespace Altkom.DotnetCore.FakeRepositories
         {
         }
 
+        private IQueryable<Customer> customers => entities.Where(c => !c.IsRemoved).AsQueryable();
+
         public ICollection<Customer> Get(CustomerSearchCriteria criteria)
         {
-            throw new System.NotImplementedException();
+            var results = customers;
+
+            if (!string.IsNullOrEmpty(criteria.City))
+                results = results.Where(c => c.FirstName == criteria.City);
+
+            if (!string.IsNullOrEmpty(criteria.Street))
+                results = results.Where(c => c.FirstName == criteria.Street);
+
+            return customers.ToList();
         }
 
         public override void Remove(int id)
         {
             Customer customer = Get(id);
             customer.IsRemoved = true;
+        }
+
+        public override bool IsExists(int key)
+        {
+            return customers.Any(c => c.Id == key);
         }
     }
 

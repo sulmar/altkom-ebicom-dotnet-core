@@ -32,6 +32,11 @@ namespace Altkom.DotnetCore.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // dotnet add package Microsoft.AspNetCore.Mvc.Formatters.Xml
+
+         
+
             // services.AddDbContext<MyContext>();
 
             // .NET Core 2.1
@@ -41,7 +46,10 @@ namespace Altkom.DotnetCore.WebApi
                 .AddSingleton<ICustomerRepository, FakeCustomerRepository>()
                 .AddSingleton<Faker<Customer>, CustomerFaker>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // curl -X GET  http://localhost:5000/api/customers -H "Accept: application/xml"
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddXmlSerializerFormatters();
 
             services.Configure<RouteOptions>(options =>
                  options.ConstraintMap.Add("pesel", typeof(PeselRouteConstraint)));
@@ -60,7 +68,7 @@ namespace Altkom.DotnetCore.WebApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

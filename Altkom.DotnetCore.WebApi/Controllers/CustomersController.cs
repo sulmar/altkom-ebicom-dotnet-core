@@ -1,4 +1,5 @@
 ﻿using Altkom.DotnetCore.IRepositories;
+using Altkom.DotnetCore.Models;
 using Altkom.DotnetCore.Models.SearchCriterias;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,9 +46,12 @@ namespace Altkom.DotnetCore.WebApi.Controllers
 
 
         // GET api/customers/10
-        [HttpGet("{id:int}", Order = 1)]
-        public IActionResult Get(int id)
+        [HttpGet("{id:int}", Order = 1, Name = nameof(GetById))]
+        public IActionResult GetById(int id)
         {
+            if (!customerRepository.IsExists(id))
+                return NotFound();
+
             var customer = customerRepository.Get(id);
 
             return Ok(customer);
@@ -71,11 +75,11 @@ namespace Altkom.DotnetCore.WebApi.Controllers
         }
 
         // GET api/customers?City=Katowice
-        [HttpGet]
-        public IActionResult GetByCity([FromQuery] string city)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public IActionResult GetByCity([FromQuery] string city)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // GET api/customers?City=Katowice&street=Sokolska&country=Poland
         //[HttpGet]
@@ -84,12 +88,51 @@ namespace Altkom.DotnetCore.WebApi.Controllers
         //    throw new NotImplementedException();
         //}
 
+        // curl -X GET  http://localhost:5000/api/customers
         // GET api/customers?City=Katowice&street=Sokolska&country=Poland
         [HttpGet]
         public IActionResult GetByAddress([FromQuery] CustomerSearchCriteria criteria)
         {
+            var customers = customerRepository.Get();
 
-            throw new NotImplementedException();
+            return Ok(customers);
+        }
+
+
+        [HttpPost]
+        public IActionResult Create([FromBody] Customer customer)
+        {
+            customerRepository.Add(customer);
+
+            return CreatedAtRoute(nameof(GetById), new { Id = customer.Id }, customer);
+        }
+
+        // PUT http://localhost:5000/api/customers/10
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Customer customer)
+        {
+            if (id != customer.Id)
+                return BadRequest();
+
+            if (!customerRepository.IsExists(id))
+                return NotFound();
+
+            customerRepository.Update(customer);
+
+            return Ok();
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (!customerRepository.IsExists(id))
+                return NotFound();
+
+            customerRepository.Remove(id);
+
+            return Ok();
         }
 
     }
