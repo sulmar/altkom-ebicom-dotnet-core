@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Altkom.DotnetCore.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Altkom.DotnetCore.Api
@@ -78,12 +77,23 @@ namespace Altkom.DotnetCore.Api
                 node.Map(string.Empty, HandleTea);
             });
 
+            // Przykład zastosowania routera
+
+            var routeBuilder = new RouteBuilder(app);
+            routeBuilder.MapGet("/api/orders/{id:int}",
+                request => request.Response.WriteAsync($"Order id {request.GetRouteValue("id")}"));
+
+            routeBuilder.MapPost("/api/orders", request => request.Response.WriteAsync("Created"));
+            IRouter router = routeBuilder.Build();
+            app.UseRouter(router);
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
             });
         }
 
+        // http://owin.org/spec/spec/owin-1.0.0.html
         private async Task OwinHandler(IDictionary<string, object> environment)
         {
             string requestMethod = (string) environment["owin.RequestMethod"];
