@@ -24,7 +24,7 @@ namespace Altkom.DotnetCore.WebApi.Controllers
 
         // GET api/customers
 
-        //[HttpGet]
+        //[HttpGet()]
         //public IActionResult Get()
         //{
         //    var customers = customerRepository.Get();
@@ -46,9 +46,12 @@ namespace Altkom.DotnetCore.WebApi.Controllers
             throw new NotImplementedException();
         }
 
-
         // GET api/customers/10
-        [HttpGet("{id:int}", Order = 1, Name = nameof(GetById))]
+        // GET api/customers/10.json
+        // GET api/customers/10.xml
+
+        [FormatFilter]
+        [HttpGet("{id:int}.{format?}", Order = 1, Name = nameof(GetById))]
         public IActionResult GetById(int id)
         {
             if (!customerRepository.IsExists(id))
