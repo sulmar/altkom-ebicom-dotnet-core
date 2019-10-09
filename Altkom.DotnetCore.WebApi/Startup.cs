@@ -44,7 +44,8 @@ namespace Altkom.DotnetCore.WebApi
 
             services
                 .AddSingleton<ICustomerRepository, FakeCustomerRepository>()
-                .AddSingleton<Faker<Customer>, CustomerFaker>();
+                .AddSingleton<Faker<Customer>, CustomerFaker>()
+                .AddSingleton<AddressFaker>();
 
             // curl -X GET  http://localhost:5000/api/customers -H "Accept: application/xml"
             services.AddMvc()
