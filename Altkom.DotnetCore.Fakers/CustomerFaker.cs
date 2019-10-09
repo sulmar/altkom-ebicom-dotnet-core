@@ -14,6 +14,7 @@ namespace Altkom.DotnetCore.Fakers
             RuleFor(p => p.FirstName, f => f.Person.FirstName);
             RuleFor(p => p.LastName, f => f.Person.LastName);
             RuleFor(p => p.Email, (f, c) => $"{c.FirstName} {c.LastName}@ebicom.pl");
+            RuleFor(p => p.Phone, f => f.Phone.PhoneNumber());
             RuleFor(p => p.IsRemoved, f => f.Random.Bool(0.3f));
             RuleFor(p => p.HomeAddress, f => addressFaker.Generate());
             RuleFor(p => p.InvoiceAddress, f => addressFaker.Generate());

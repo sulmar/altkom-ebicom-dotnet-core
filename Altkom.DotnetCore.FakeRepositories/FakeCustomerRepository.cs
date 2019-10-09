@@ -40,6 +40,13 @@ namespace Altkom.DotnetCore.FakeRepositories
         {
             return customers.Any(c => c.Id == key);
         }
+
+        public bool TryAthorize(string username, string password, out Customer customer)
+        {
+            customer = customers.SingleOrDefault(c => c.UserName == username && c.HashPassword == password);
+
+            return customer != null;
+        }
     }
 
     /*

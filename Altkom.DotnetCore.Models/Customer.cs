@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Altkom.DotnetCore.Models
 {
@@ -10,6 +11,7 @@ namespace Altkom.DotnetCore.Models
         public string Email { get; set; }
         public bool IsRemoved { get; set; }
         public string UserName { get; set; }
+        public string Phone { get; set; }
         public string HashPassword { get; set; }
         public Address HomeAddress { get; set; }
         public Address InvoiceAddress { get; set; }

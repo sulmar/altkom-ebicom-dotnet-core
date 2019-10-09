@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
 namespace Altkom.DotnetCore.WebApi.Controllers
@@ -98,6 +99,15 @@ namespace Altkom.DotnetCore.WebApi.Controllers
             {
                 return Unauthorized();
             }
+
+            if (this.User.IsInRole("Developer"))
+            {
+
+            }
+
+            // Przykład pobrania informacji z Claims
+            string email = this.User.FindFirst(ClaimTypes.Email)?.Value;
+            string phone = this.User.FindFirst(ClaimTypes.MobilePhone)?.Value;
 
             var customers = customerRepository.Get();
 

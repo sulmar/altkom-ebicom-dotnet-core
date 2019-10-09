@@ -11,6 +11,7 @@ namespace Altkom.DotnetCore.IRepositories
         // ICollection<Customer> Get(string city, string street, string country, string postcode);
 
         ICollection<Customer> Get(CustomerSearchCriteria criteria);
+        bool TryAthorize(string username, string password, out Customer customer);
     }
 
 }
